@@ -25,6 +25,7 @@
       {
         "endOfLine": "lf"
       }
-    ]
+    ],
+    "linebreak-style": ["error", "unix"]
   }
 }
