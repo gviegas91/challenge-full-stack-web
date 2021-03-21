@@ -1,25 +1,26 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Student from '../views/Student.vue';
+import HelloWorld from '../components/HelloWorld.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Student a',
-    component: Student,
+    name: 'Home Page',
+    component: HelloWorld,
   },
   {
-    path: '/student',
-    name: 'Student a',
+    path: '/students',
+    name: 'Student',
     component: Student,
   },
 ];
 
 const router = new VueRouter({
   mode: 'hash',
-  base: '',
+  base: '/',
   routes,
 });
 
