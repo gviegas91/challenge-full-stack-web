@@ -21,7 +21,7 @@ export default {
     links: [
       {
         text: 'Alunos',
-        to: '/students',
+        to: 'students',
         icon: 'mdi-account-group',
       },
     ],
