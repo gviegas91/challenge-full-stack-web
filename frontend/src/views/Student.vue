@@ -103,6 +103,9 @@
   </v-data-table>
 </template>
 <script>
+import axios from 'axios';
+import endpoints from '../api/endpoints';
+
 export default {
   name: 'Student',
 
@@ -146,9 +149,6 @@ export default {
     dialogDelete(val) {
       return val || this.closeDelete();
     },
-  },
-  created() {
-    this.initialize();
   },
   methods: {
     initialize() {
@@ -221,6 +221,21 @@ export default {
       }
       this.close();
     },
+  },
+  created() {
+    this.initialize();
+  },
+  mounted() {
+    axios
+      .get(endpoints.students)
+      .then((response) => {
+        console.log('RESPONSE ', response);
+        this.posts = response.data;
+      })
+      .catch((e) => {
+        console.log('ERROR ', e);
+        this.errors.push(e);
+      });
   },
 };
 </script>
