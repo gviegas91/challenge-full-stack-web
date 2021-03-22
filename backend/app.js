@@ -7,4 +7,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use("/students", studentsRoute);
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+});
+
 module.exports = app;
