@@ -227,6 +227,7 @@ export default {
   },
   mounted() {
     axios
+      // .get('https://challenge-grupoa-api.herokuapp.com/students')
       .get(endpoints.students)
       .then((response) => {
         console.log('RESPONSE ', response);
