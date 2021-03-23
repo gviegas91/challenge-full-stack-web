@@ -2,57 +2,54 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("../database/index");
 
-router.get("/", (req, res, next) => {
-  mysql.getConnection((error, conn) => {
-    if (error) {
-      return res.status(500).send({ error: error });
-    }
-
-    conn.query("SELECT * FROM students", (error, result, fields) => {
-      conn.release();
-      if (error) {
-        return res.status(500).send({ error: error });
-      }
-
-      return res.status(200).send({ response: result, message: "HA" });
-    });
-  });
+router.get("/", async (req, res, next) => {
+  try {
+    const query = "SELECT * FROM students";
+    const result = await mysql.execute(query);
+    return res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send({ error: error });
+  }
 });
 
-router.post("/", (req, res, next) => {
-  mysql.getConnection((error, conn) => {
-    if (error) {
-      return res.status(500).send({ error: error });
-    }
-
-    console.log("REQ -> ", req);
-    conn.query(
-      "INSERT INTO students (name, email, ra, cpf) VALUES (?, ?, ?, ?)",
-      [req.body.name, req.body.email, req.body.ra, req.body.cpf],
-      (error, result, fields) => {
-        conn.release();
-        if (error) {
-          return res.status(500).send({ error: error, response: null });
-        }
-
-        return res
-          .status(200)
-          .send({ response: result, message: "Aluno cadastrado com sucesso!" });
-      }
-    );
-  });
+router.post("/", async (req, res, next) => {
+  try {
+    const query =
+      "INSERT INTO students (name, email, ra, cpf) VALUES (?, ?, ?, ?)";
+    const result = await mysql.execute(query, [
+      req.body.name,
+      req.body.email,
+      req.body.ra,
+      req.body.cpf,
+    ]);
+    return res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send({ error: error });
+  }
 });
 
-router.patch("/", (req, res, next) => {
-  res.status(201).send({
-    mensagem: "UPDATE DE STUDENT",
-  });
+router.patch("/", async (req, res, next) => {
+  try {
+    const query = "UPDATE students SET name = ?, email = ? WHERE ra = ?";
+    const result = await mysql.execute(query, [
+      req.body.name,
+      req.body.email,
+      req.body.ra,
+    ]);
+    return res.status(202).send(result);
+  } catch (error) {
+    return res.status(500).send({ error: error });
+  }
 });
 
-router.delete("/", (req, res, next) => {
-  res.status(201).send({
-    mensagem: "DELETE DE STUDENT",
-  });
+router.delete("/", async (req, res, next) => {
+  try {
+    const query = `DELETE FROM students WHERE ra = ?`;
+    const result = await mysql.execute(query, [req.body.ra]);
+    return res.status(202).send(result);
+  } catch (error) {
+    return res.status(500).send({ error: error });
+  }
 });
 
 module.exports = router;
