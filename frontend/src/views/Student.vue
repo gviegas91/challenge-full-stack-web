@@ -3,7 +3,7 @@
     :headers="headers"
     :items="studentList"
     class="elevation-1"
-    item-key="register"
+    item-key="ra"
     :search="search"
     hide-default-footer
   >
@@ -35,25 +35,27 @@
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.name"
-                      placeholder="Nome"
+                      label="Nome"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.email"
-                      placeholder="Email"
+                      label="Email"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
-                      v-model="editedItem.register"
-                      placeholder="RA"
+                      v-model="editedItem.ra"
+                      label="RA"
+                      :disabled="disableField"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.cpf"
-                      placeholder="CPF"
+                      label="CPF"
+                      :disabled="disableField"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -95,13 +97,17 @@
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">
-        Clique aqui para carregar novamente
-      </v-btn>
+      <v-card class="loader" flat min-height="200">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </v-card>
     </template>
     <template v-slot:no-result> Nenhum resultado encontrado </template>
   </v-data-table>
 </template>
+//
 <script>
 import axios from 'axios';
 import endpoints from '../api/endpoints';
@@ -110,10 +116,11 @@ export default {
   name: 'Student',
 
   data: () => ({
+    disableField: false,
     search: '',
     studentList: [],
     editedItem: {
-      register: '',
+      ra: '',
       name: '',
       cpf: '',
       email: '',
@@ -128,7 +135,7 @@ export default {
         {
           text: 'Registro Acadêmico',
           align: 'start',
-          value: 'register',
+          value: 'ra',
         },
         {
           text: 'Nome',
@@ -151,36 +158,8 @@ export default {
     },
   },
   methods: {
-    initialize() {
-      this.studentList = [
-        {
-          register: '101239',
-          name: 'Paula Souza',
-          cpf: '121.999.999-99',
-          actions: 'teste',
-        },
-        {
-          register: '111687',
-          name: 'João Silva',
-          cpf: '122.999.999-99',
-          actions: 'teste',
-        },
-        {
-          register: '111365',
-          name: 'Marina Miranda',
-          cpf: '123.999.999-99',
-          actions: 'teste',
-        },
-        {
-          register: '101299',
-          name: 'Maurício Souza',
-          cpf: '124.999.999-99',
-          actions: 'teste',
-        },
-      ];
-    },
-
     editItem(item) {
+      this.disableField = true;
       this.editedIndex = this.studentList.indexOf(item);
       this.editedItem = { ...item };
       this.dialog = true;
@@ -198,6 +177,7 @@ export default {
     },
 
     close() {
+      this.disableField = false;
       this.dialog = false;
       this.$nextTick(() => {
         this.editedItem = { ...this.defaultItem };
@@ -218,20 +198,26 @@ export default {
         Object.assign(this.studentList[this.editedIndex], this.editedItem);
       } else {
         this.studentList.push(this.editedItem);
+        axios
+          .post(endpoints.students, this.editedItem)
+          .then((response) => {
+            console.log('ADDDDD ', response);
+            this.studentList.push(response.data.response); // mudar
+          })
+          .catch((e) => {
+            console.log('ERROR ', e);
+            this.errors.push(e);
+          });
       }
       this.close();
     },
   },
-  created() {
-    this.initialize();
-  },
   mounted() {
     axios
-      // .get('https://challenge-grupoa-api.herokuapp.com/students')
       .get(endpoints.students)
       .then((response) => {
         console.log('RESPONSE ', response);
-        this.posts = response.data;
+        this.studentList = response.data.response; // mudar
       })
       .catch((e) => {
         console.log('ERROR ', e);
@@ -248,5 +234,11 @@ export default {
 
 .v-toolbar__content {
   align-items: center;
+}
+
+.loader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
