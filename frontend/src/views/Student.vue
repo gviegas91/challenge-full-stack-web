@@ -6,6 +6,7 @@
       v-show="loading"
     ></v-progress-linear>
     <v-data-table
+      height="100vh"
       :headers="headers"
       :items="studentList"
       class="elevation-1"
@@ -15,8 +16,9 @@
       loading-text="Carregando itens"
     >
       <template v-slot:top>
-        <v-toolbar flat height="80">
+        <v-toolbar flat height="80" class="caca">
           <v-text-field
+            color="#209378"
             v-model="search"
             placeholder="Digite sua busca"
             class="mx-4"
@@ -27,7 +29,7 @@
 
           <v-dialog v-model="dialog" max-width="600px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
+              <v-btn color="#209378" dark class="mb-2" v-bind="attrs" v-on="on">
                 Cadastrar aluno
               </v-btn>
             </template>
@@ -42,6 +44,7 @@
                     <v-row>
                       <v-col cols="12" sm="6">
                         <v-text-field
+                          color="#209378"
                           v-model="editedItem.name"
                           label="Nome"
                           :rules="[formRules.required, formRules.nameRule]"
@@ -49,6 +52,7 @@
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
+                          color="#209378"
                           v-model="editedItem.email"
                           label="Email"
                           type="email"
@@ -57,6 +61,7 @@
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
+                          color="#209378"
                           v-model="editedItem.ra"
                           label="RA"
                           type="tel"
@@ -67,6 +72,7 @@
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
+                          color="#209378"
                           v-model="editedItem.cpf"
                           label="CPF"
                           :disabled="disableField"
@@ -85,12 +91,8 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">
-                  Cancelar
-                </v-btn>
-                <v-btn color="blue darken-1" text @click="save">
-                  Cadastrar
-                </v-btn>
+                <v-btn color="#209378" text @click="close"> Cancelar </v-btn>
+                <v-btn color="#209378" text @click="save"> Cadastrar </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -102,10 +104,10 @@
               >
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete"
+                <v-btn color="#209378" text @click="closeDelete"
                   >Cancelar</v-btn
                 >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                <v-btn color="#209378" text @click="deleteItemConfirm"
                   >Deletar</v-btn
                 >
                 <v-spacer></v-spacer>
@@ -320,7 +322,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .v-data-table-header {
   background-color: #ccc;
 }
@@ -343,5 +345,22 @@ export default {
 
 .v-alert .v-icon {
   margin: 0 0 0 40px;
+}
+
+.v-data-table {
+  border-radius: 0;
+  padding: 30px;
+}
+
+.v-toolbar__content {
+  padding: 0 !important;
+}
+
+.v-data-table-header {
+  background-color: #e0f2f1;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover {
+  background-color: #e0f2f1 !important;
 }
 </style>

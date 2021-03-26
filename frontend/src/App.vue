@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Sidebar />
-    <v-main>
+    <v-main class="main-content">
       <v-container fluid>
         <transition
           name="slide"
@@ -30,3 +30,8 @@ export default {
   }),
 };
 </script>
+<style scoped>
+.main-content {
+  background-color: #e0f2f1;
+}
+</style>
