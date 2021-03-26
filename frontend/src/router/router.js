@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Student from '../views/Student.vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import Welcome from '../components/Welcome.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home Page',
-    component: HelloWorld,
+    name: 'Dashboard',
+    component: Welcome,
   },
   {
     path: '/students',
@@ -19,7 +19,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: '',
   base: '/',
   routes,
 });
