@@ -3,7 +3,8 @@ Abaixo os tópicos necessários sobre o projeto.
 
 DECISÃO DE ARQUITETURA:
 
-- Comecei o projeto do 0 utilizando o vue-cli. Segui um desenvolvimento padrão primeiro das funcionalidades, até porque na prática eu nunca utilizei TDD, por exemplo. Infelizmente não consegui aplicar os testes nos componentes.
+- Comecei o projeto do 0 utilizando o vue-cli. Segui um desenvolvimento padrão focando nas funcionalidades, até porque na prática eu nunca utilizei TDD, por exemplo. Infelizmente não consegui aplicar os testes nos componentes.
+  Como a minha intensão era disponibilizar o teste pratíco no Heroku, utilizei um addon do Heroku chamado JawsDB MySQL para criar o banco.
 
 LISTA DE BIBLIOTECAS DE TERCEIROS UTILIZADAS:
 

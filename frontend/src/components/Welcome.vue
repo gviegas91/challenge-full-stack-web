@@ -80,4 +80,8 @@ export default {
 p {
   margin: 10px 10px 0;
 }
+
+a {
+  display: inline-block;
+}
 </style>
