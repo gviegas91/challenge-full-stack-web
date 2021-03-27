@@ -2,7 +2,7 @@
   <div>
     <v-progress-linear
       indeterminate
-      color="primary"
+      color="#209378"
       v-show="loading"
     ></v-progress-linear>
     <v-data-table
